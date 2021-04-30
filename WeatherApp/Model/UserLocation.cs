@@ -4,9 +4,17 @@ using System.Text;
 
 namespace WeatherApp.Model
 {
-    internal class UserLocation
+    public class UserLocation
     {
-        public int ID { get; set; }
+        public UserLocation(){}
+
+        public UserLocation(string name)
+        {
+            this.Name = name;
+            this.ID = "050-" + DateTime.Now.Year + "-" + Name.PadLeft(4, '0');
+        }
+
+        public string ID { get; set; }
         public string Name { get; set; }
     }
 }

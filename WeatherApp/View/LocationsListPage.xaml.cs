@@ -1,4 +1,5 @@
 ﻿using System;
+using WeatherApp.Model;
 using WeatherApp.ModelView;
 using Xamarin.Forms;
 
@@ -6,10 +7,12 @@ namespace WeatherApp.View
 {
     public partial class LocationsListPage : ContentPage
     {
+        private LocationsListViewModel locationsHolder;
         public LocationsListPage()
         {
             InitializeComponent();
-            BindingContext = new LocationsListViewModel();
+            locationsHolder = new LocationsListViewModel();
+            BindingContext = locationsHolder;
         }
 
         protected override void OnAppearing()
@@ -19,7 +22,13 @@ namespace WeatherApp.View
 
         void OnItemAdded(object sender, EventArgs e)
         {
-            DisplayAlert("Item Added", "An item was added to the list", "OK");
+            promptAndAddItem();
+        }
+
+        async void promptAndAddItem()
+        {
+            string result = await DisplayPromptAsync("Insert new Location", "Insert Location Name:");
+            locationsHolder.AddLocation(new UserLocation(result));
         }
 
         void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
