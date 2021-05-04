@@ -11,9 +11,14 @@ namespace WeatherApp.View
 {
     public partial class LocationDetailsPage : ContentPage
     {
+
         public LocationDetailsPage()
         {
             InitializeComponent();
+
+            
+            //currentTemperatureText.Text = "0.00";
+
         }
     }
 }

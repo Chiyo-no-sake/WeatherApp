@@ -38,7 +38,7 @@ namespace WeatherApp.View
 
             Navigation.PushAsync(new LocationDetailsPage()
             {
-                BindingContext = e.SelectedItem as Model.UserLocation
+                BindingContext = new LocationDetailViewModel(e.SelectedItem as Model.UserLocation)
             });
         }
     }
