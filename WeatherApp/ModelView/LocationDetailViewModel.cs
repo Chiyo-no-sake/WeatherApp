@@ -40,21 +40,19 @@ namespace WeatherApp.ModelView
             string weatherCurrent = (string)JObject.Parse(content)["main"]["temp"];
             string weatherMax = (string)JObject.Parse(content)["main"]["temp_max"];
             string weatherMin = (string)JObject.Parse(content)["main"]["temp_min"];
-
-
-
+            string weatherIcon = (string)JObject.Parse(content)["weather"][0]["icon"];
 
             CurrentTemperature = convertKelvinToC(Convert.ToDouble(weatherCurrent));
             MinimumTemperature = convertKelvinToC(Convert.ToDouble(weatherMin));
             MaximumTemperature = convertKelvinToC(Convert.ToDouble(weatherMax));
-
+            WeatherIcon = weatherIcon;
+           
         }
 
         private double convertKelvinToC(double k)
         {
             return k - 273.15;
         }
-
 
         private double _maximumTemperature = 0.00;
         public double MaximumTemperature
@@ -110,6 +108,22 @@ namespace WeatherApp.ModelView
                 if (_weatherIcon != value)
                 {
                     _weatherIcon = value;
+
+                    ImageURL = "https://openweathermap.org/img/wn/"+ _weatherIcon + "@2x.png";
+                    //OnPropertyChanged();
+                }
+            }
+        }
+
+        private string _imageURL = "https://openweathermap.org/img/wn/01d@2x.png";
+        public string ImageURL
+        {
+            get { return _imageURL; }
+            set
+            {
+                if (_imageURL != value)
+                {
+                    _imageURL = value;
                     OnPropertyChanged();
                 }
             }

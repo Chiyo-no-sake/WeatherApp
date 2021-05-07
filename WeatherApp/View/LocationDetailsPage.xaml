@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="WeatherApp.View.LocationDetailsPage">
 	<ContentPage.Content>
 		<RelativeLayout x:Name="containerLayout">
-            <BoxView Color="Aqua"
+            <Image
                     x:Name="imageBanner"
+                    Source="{Binding ImageURL}"
                     RelativeLayout.WidthConstraint="{ConstraintExpression  
                                                         Type=RelativeToParent,
                                                         Property=Width,
@@ -12,7 +13,7 @@
                                                             Type=RelativeToParent,
                                                             Property=Height,
                                                             Factor=0.3}"
-            ></BoxView>
+            ></Image>
            
             <Label Text="{Binding UserLocation.Name}" 
                    FontSize="Title"
