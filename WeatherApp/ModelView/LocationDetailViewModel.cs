@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using WeatherApp.Model;
 using Xamarin.Forms;
 
@@ -23,9 +27,36 @@ namespace WeatherApp.ModelView
         public LocationDetailViewModel(UserLocation userLocation)
         {
             UserLocation = userLocation;
+
+            _ = getWeatherAsync();
+           
         }
 
-        private double _maximumTemperature = 0.03;
+        private async Task getWeatherAsync()
+        {
+            var httpClient = new HttpClient();
+            var content = await httpClient.GetStringAsync("https://api.openweathermap.org/data/2.5/weather?q="+ UserLocation.Name +"&appid=bda36c03a06ee5e92467b7ccb9ecbacc");
+
+            string weatherCurrent = (string)JObject.Parse(content)["main"]["temp"];
+            string weatherMax = (string)JObject.Parse(content)["main"]["temp_max"];
+            string weatherMin = (string)JObject.Parse(content)["main"]["temp_min"];
+
+
+
+
+            CurrentTemperature = convertKelvinToC(Convert.ToDouble(weatherCurrent));
+            MinimumTemperature = convertKelvinToC(Convert.ToDouble(weatherMin));
+            MaximumTemperature = convertKelvinToC(Convert.ToDouble(weatherMax));
+
+        }
+
+        private double convertKelvinToC(double k)
+        {
+            return k - 273.15;
+        }
+
+
+        private double _maximumTemperature = 0.00;
         public double MaximumTemperature
         {
             get { return _maximumTemperature; }
@@ -39,7 +70,7 @@ namespace WeatherApp.ModelView
             }
         }
 
-        private double _minimumTemperature = 0.01;
+        private double _minimumTemperature = 0.00;
         public double MinimumTemperature
         {
             get { return _minimumTemperature; }
@@ -55,7 +86,7 @@ namespace WeatherApp.ModelView
 
 
 
-        private double _currentTemperature = 0.02;
+        private double _currentTemperature = 0.00;
         public double CurrentTemperature
         {
             get { return _currentTemperature; }
